@@ -1,0 +1,66 @@
+Part 1
+
+async function initialLoad(){
+
+  try {
+
+    const response = await fetch(`https://api.thecatapi.com/v1/breeds?${API_KEY}`)
+
+    const breeds = await response.json();
+
+    console.log(breeds)
+
+    breeds.forEach(breed => {
+
+    const option = document.createElement("option");
+
+    option.value = breed.id;
+
+    option.textContent = breed.name;
+
+    breedSelect.appendChild(option);
+
+})
+
+    }
+
+  catch {
+
+    console.log("Error completing initial load.")
+
+  }
+
+}; 
+
+initialLoad()
+
+
+Part 2
+
+async function breedSelectHandler(){
+
+  const breedSelectedId = breedSelect.value;
+
+  infoDump.innerHTML = '';
+
+  try {
+
+    const response = await fetch(`https://api.thecatapi.com/v1/images/search?breed_ids=${breedSelectedId}`);
+
+    const breedSelectedInfo = await response.json();
+
+ 
+
+    breedSelectedInfo.forEach(data => {
+
+      const carouselData = document.createElement("div");
+
+      carouselData
+
+    })
+
+  }
+
+ 
+
+}
