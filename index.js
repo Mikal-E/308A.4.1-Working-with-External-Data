@@ -36,11 +36,15 @@ async function initialLoad() {
     breedSelect.onbeforematch(breed => {
 
       const option = document.createElement("option");
-      option
+      option.value = breed.id;
+      option.textContent = breed.name;
+      breedSelect.appendChild(option);
 
-    })
+    });
 
-  } catch (error) {
+  } catch {
+
+    console.log("Error completing initial load.")
     
   }
   
