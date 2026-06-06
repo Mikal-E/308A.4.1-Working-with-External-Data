@@ -25,12 +25,24 @@ Set a default header with your API key so that you do not have to send it manual
 axios.defaults.baseURL = "https://api.thecatapi.com/v1";
 axios.defaults.headers.common["x-api-key"] = API_KEY;
 
+// Part 6 - Create a function "updateProgress" that receives a progressEvent object.
+
+function updateProgress(progressEvent) {
+
+    console.log(progressEvent);
+
+    const progress = progressEvent.loaded / (progressEvent.total || progressEvent.loaded) * 100;
+    progressBar.style.width = `${progress}%`;
+
+}
+
 // Part 5 - Add Axios interceptors to log the time between request and response to the console.
 
 axios.interceptors.request.use((config) => {
 
     console.log("Request started");
     config.metadata = { startTime: new Date() };
+    progressBar.style.width = "0%";
     return config;
 
     }
@@ -93,9 +105,17 @@ breedSelect.addEventListener("change", async (event) => {
 
 // Part 2 - Item 4 - Change all of your fetch() functions to axios.
 
-    const response = await axios.get(`/images/search?limit=10&breed_ids=${selectedBreed}`);
-    const data = response.data;
+    const response = await axios.get(`/images/search?limit=10&breed_ids=${selectedBreed}`, {
 
+// Part 6 -Item 4 - Sub-Bullet Point - Pass this function to the axios onDownloadProgress config option in your event handler.
+
+        onDownloadProgress: updateProgress
+
+        }
+    );
+
+    const data = response.data; 
+    
 // For each object in the response array, create a new element for the carousel
 
     data.forEach(item => {

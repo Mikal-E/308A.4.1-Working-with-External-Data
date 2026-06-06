@@ -123,8 +123,8 @@ breedSelect.addEventListener("change", async (event) => {
  * - In your request interceptor, set the width of the progressBar element to 0%.
  *  - This is to reset the progress with each request.
  * - Research the axios onDownloadProgress config option.
- * - Create a function "updateProgress" that receives a ProgressEvent object.
- *  - Pass this function to the axios onDownloadProgress config option in your event handler.
+ * - 
+ *  - 
  * - console.log your ProgressEvent object within updateProgess, and familiarize yourself with its structure.
  *  - Update the progress of the request using the properties you are given.
  * - Note that we are not downloading a lot of data, so onDownloadProgress will likely only fire
