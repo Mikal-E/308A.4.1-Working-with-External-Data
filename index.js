@@ -3,7 +3,7 @@ import { API_KEY } from "./keys.js";
 
 // Axios Import Statement Below. Uncommented Provided Statement For Import Use
 
-import axios from "axios";
+// import axios from "axios";
 
 // The breed selection input element.
 const breedSelect = document.getElementById("breedSelect");
@@ -14,18 +14,44 @@ const progressBar = document.getElementById("progressBar");
 // The get favourites button element.
 const getFavouritesBtn = document.getElementById("getFavouritesBtn");
 
-/* Part 2 - Item 1
+// Part 2 - Item 1
 
+// Create an async function "initialLoad"
 
+async function initialLoad() {
+ 
+// Retrieve a list of breeds from the cat API using fetch()
 
-/**
- * 1. Create an async function "initialLoad" that does the following:
- * - Retrieve a list of breeds from the cat API using fetch().
- * - Create new <options> for each of these breeds, and append them to breedSelect.
- *  - Each option should have a value attribute equal to the id of the breed.
- *  - Each option should display text equal to the name of the breed.
- * This function should execute immediately.
- */
+  const response = await fetch(`https://api.thecatapi.com/v1/breeds`, {
+
+    headers: { "x-api-key": API_KEY }
+
+    }
+  );
+
+    const data = await response.json();
+
+// Checked to see if API was working.
+
+    console.log(data);
+
+// Create new <options> for each of these breeds, and append them to breedSelect
+
+    data.forEach(breed => {
+
+      const option = document.createElement("option");
+      option.value = breed.id;
+      option.textContent = breed.name;
+      breedSelect.appendChild(option);
+
+    }
+  );
+
+}
+
+initialLoad();
+
+// Part 2 - Item 2
 
 /**
  * 2. Create an event handler for breedSelect that does the following:

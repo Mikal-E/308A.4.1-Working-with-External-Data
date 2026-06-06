@@ -1,4 +1,4 @@
-const { Carousel } = bootstrap
+const { Carousel } = bootstrap;
 import { favourite } from "./index.js";
 
 export function createCarouselItem(imgSrc, imgAlt, imgId) {
