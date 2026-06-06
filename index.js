@@ -33,7 +33,7 @@ async function initialLoad() {
 
 // Checked to see if API was working.
 
-    console.log(data);
+    // console.log(data);
 
 // Create new <options> for each of these breeds, and append them to breedSelect
 
@@ -47,26 +47,74 @@ async function initialLoad() {
     }
   );
 
+/* Part 2 - Item 2 - Last Bullet Point
+add a call to breedSelect function to the end of initialLoad function. */
+
+
+  breedSelect.dispatchEvent(new Event("change"));
+
 }
 
 initialLoad();
 
 // Part 2 - Item 2
 
-/**
- * 2. Create an event handler for breedSelect that does the following:
- * - Retrieve information on the selected breed from the cat API using fetch().
- *  - Make sure your request is receiving multiple array items!
- *  - Check the API documentation if you're only getting a single object.
- * - For each object in the response array, create a new element for the carousel.
- *  - Append each of these new elements to the carousel.
- * - Use the other data you have been given to create an informational section within the infoDump element.
- *  - Be creative with how you create DOM elements and HTML.
- *  - Feel free to edit index.html and styles.css to suit your needs, but be careful!
- *  - Remember that functionality comes first, but user experience and design are important.
- * - Each new selection should clear, re-populate, and restart the Carousel.
- * - Add a call to this function to the end of your initialLoad function above to create the initial carousel.
- */
+// Create an event handler for breedSelect
+
+breedSelect.addEventListener("change", async (event) => {
+
+  const selectedBreed = event.target.value;
+
+  Carousel.clear();
+
+// Sets/clears infoDump element...
+
+  infoDump.innerHTML = "";
+
+// Retrieve information on the selected breed from the cat API using fetch()
+
+  const response = await fetch(`https://api.thecatapi.com/v1/images/search?limit=10&breed_ids=${selectedBreed}`, {
+
+    headers: { "x-api-key": API_KEY }
+
+      }
+    ); 
+
+    const data = await response.json();
+    console.log(data);
+
+// For each object in the response array, create a new element for the carousel
+
+    data.forEach(item => {
+
+      const carouselItem = Carousel.createCarouselItem(
+
+        item.url,
+        item.breeds[0].name,
+        item.id
+
+      );
+
+// Append each of these new elements to the carousel
+
+      Carousel.appendCarousel(carouselItem);
+
+    });
+
+    Carousel.start();
+
+// Use the other data you have been given to create an informational section within the infoDump element.
+
+    const breed = data[0].breeds[0];
+    infoDump.innerHTML = `<h2>${breed.name}</h2>
+    <p><strong>Origin: </strong>${breed.origin}</p>
+    <p><strong>Temperament: </strong>${breed.temperament}</p>
+    <p><strong>Description: </strong>${breed.description}</p>`;
+
+  }
+
+
+);
 
 /**
  * 3. Fork your own sandbox, creating a new one named "JavaScript Axios Lab."
