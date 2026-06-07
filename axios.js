@@ -25,7 +25,7 @@ Set a default header with your API key so that you do not have to send it manual
 axios.defaults.baseURL = "https://api.thecatapi.com/v1";
 axios.defaults.headers.common["x-api-key"] = API_KEY;
 
-// Part 6 - Create a function "updateProgress" that receives a progressEvent object.
+// Part 2 - Item 6 - Create a function "updateProgress" that receives a progressEvent object.
 
 function updateProgress(progressEvent) {
 
@@ -36,13 +36,18 @@ function updateProgress(progressEvent) {
 
 }
 
-// Part 5 - Add Axios interceptors to log the time between request and response to the console.
+// Part 2 - Item 5 - Add Axios interceptors to log the time between request and response to the console.
 
 axios.interceptors.request.use((config) => {
 
     console.log("Request started");
     config.metadata = { startTime: new Date() };
     progressBar.style.width = "0%";
+
+// Part 2 - Item 7 - In your request interceptor, set the body element's cursor style to "progress."
+
+    document.body.style.cursor = "progress";
+
     return config;
 
     }
@@ -52,6 +57,11 @@ axios.interceptors.response.use((response) => {
 
     const duration = new Date() - response.config.metadata.startTime;
     console.log(`Request took ${duration}ms`);
+
+// Part 2 - Itme 7 - In your response interceptor, remove the progress cursor style from the body element.
+
+    document.body.style.cursor = "default";
+
     return response;
 
     }
@@ -107,7 +117,7 @@ breedSelect.addEventListener("change", async (event) => {
 
     const response = await axios.get(`/images/search?limit=10&breed_ids=${selectedBreed}`, {
 
-// Part 6 -Item 4 - Sub-Bullet Point - Pass this function to the axios onDownloadProgress config option in your event handler.
+// Part 2 -Item 4 - Sub-Bullet Point - Pass this function to the axios onDownloadProgress config option in your event handler.
 
         onDownloadProgress: updateProgress
 
@@ -143,9 +153,27 @@ breedSelect.addEventListener("change", async (event) => {
     <p><strong>Origin: </strong>${breed.origin}</p>
     <p><strong>Temperament: </strong>${breed.temperament}</p>
     <p><strong>Description: </strong>${breed.description}</p>`;
-
   }
-
-
 );
+
+// Part 2 - Item 8
+
+// export async function favourite(imgId) {
+
+//     console.log("Favourite called with id:", imgId)
+
+//     const favourites = await axios.get("/favourites");
+//     const existing = favourites.data.find(fav => fav.image_id === imgId);
+
+//     if (existing) {
+
+//         await axios.delete(`/favourites/${existing.id}`);
+        
+//     } else {
+
+//         await axios.post("/favourites", { image_id: imgId });
+        
+//     }
+
+// };
 

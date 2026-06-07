@@ -3,7 +3,7 @@ import { API_KEY } from "./keys.js";
 
 // Axios Import Statement Below. Uncommented Provided Statement For Import Use
 
-// import axios from "axios";
+// import axios from "./axios.js";
 
 // The breed selection input element.
 const breedSelect = document.getElementById("breedSelect");
@@ -116,40 +116,29 @@ breedSelect.addEventListener("change", async (event) => {
 
 );
 
-/**
- * 6. Next, we'll create a progress bar to indicate the request is in progress.
- * - The progressBar element has already been created for you.
- *  - You need only to modify its "width" style property to align with the request progress.
- * - In your request interceptor, set the width of the progressBar element to 0%.
- *  - This is to reset the progress with each request.
- * - Research the axios onDownloadProgress config option.
- * - 
- *  - 
- * - console.log your ProgressEvent object within updateProgess, and familiarize yourself with its structure.
- *  - Update the progress of the request using the properties you are given.
- * - Note that we are not downloading a lot of data, so onDownloadProgress will likely only fire
- *   once or twice per request to this API. This is still a concept worth familiarizing yourself
- *   with for future projects.
- */
+/* Part 2 - Item 8
+Post to the cat API's favourites endpoint with the given ID. The API documentation gives examples of this
+functionality using fetch(); use Axios! Add additional logic to this function such that if the image is
+already favourited, you delete that favourite using the API, giving this function "toggle" functionality.
+*/
 
-/**
- * 7. As a final element of progress indication, add the following to your axios interceptors:
- * - In your request interceptor, set the body element's cursor style to "progress."
- * - In your response interceptor, remove the progress cursor style from the body element.
- */
-/**
- * 8. To practice posting data, we'll create a system to "favourite" certain images.
- * - The skeleton of this function has already been created for you.
- * - This function is used within Carousel.js to add the event listener as items are created.
- *  - This is why we use the export keyword for this function.
- * - Post to the cat API's favourites endpoint with the given ID.
- * - The API documentation gives examples of this functionality using fetch(); use Axios!
- * - Add additional logic to this function such that if the image is already favourited,
- *   you delete that favourite using the API, giving this function "toggle" functionality.
- * - You can call this function by clicking on the heart at the top right of any image.
- */
 export async function favourite(imgId) {
-  // your code here
+  
+  // console.log("Favourite called with id:", imgId);
+
+    const favourites = await axios.get("/favourites");
+    const existing = favourites.data.find(fav => fav.image_id === imgId);
+
+    if (existing) {
+
+        await axios.delete(`/favourites/${existing.id}`);
+        
+    } else {
+
+        await axios.post("/favourites", { image_id: imgId });
+        
+    }
+
 }
 
 /**
