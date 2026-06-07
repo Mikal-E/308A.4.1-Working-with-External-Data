@@ -67,7 +67,7 @@ breedSelect.addEventListener("change", async (event) => {
 
   Carousel.clear();
 
-// Sets/clears infoDump element...
+// Sets/Clears infoDump element...
 
   infoDump.innerHTML = "";
 
@@ -102,6 +102,16 @@ breedSelect.addEventListener("change", async (event) => {
     });
 
     Carousel.start();
+
+/* Part 2 - Item 10 
+Test your site, thoroughly! What happens when you try to load the Malayan breed? Not every breed has the same data
+available, so your code should account for this.
+ */
+    if (data.length === 0) {
+      
+      return
+
+    };
 
 // Use the other data you have been given to create an informational section within the infoDump element.
 
@@ -141,20 +151,32 @@ export async function favourite(imgId) {
 
 }
 
-/**
- * 9. Test your favourite() function by creating a getFavourites() function.
- * - Use Axios to get all of your favourites from the cat API.
- * - Clear the carousel and display your favourites when the button is clicked.
- *  - You will have to bind this event listener to getFavouritesBtn yourself.
- *  - Hint: you already have all of the logic built for building a carousel.
- *    If that isn't in its own function, maybe it should be so you don't have to
- *    repeat yourself in this section.
- */
+/* Part 2 - Item 9
+Test your favourite() function by creating a getFavourites() function. Use Axios to get all of your favourites
+from the cat API. Clear the carousel and display your favourites when the button is clicked.
+*/
 
-/**
- * 10. Test your site, thoroughly!
- * - What happens when you try to load the Malayan breed?
- *  - If this is working, good job! If not, look for the reason why and fix it!
- * - Test other breeds as well. Not every breed has the same data available, so
- *   your code should account for this.
- */
+async function getFavourites() {
+
+  const favourites = await axios.get("/favourites");
+  const data = favourites.data;
+  // console.log(data);
+
+  Carousel.clear();
+  data.forEach(fav => {
+
+    const carouselItem = Carousel.createCarouselItem(
+
+      fav.image.url,
+      "Favourite",
+      fav.image.id
+    );
+
+    Carousel.appendCarousel(carouselItem);
+
+  });
+  Carousel.start();
+  
+};
+
+getFavouritesBtn.addEventListener("click", getFavourites);

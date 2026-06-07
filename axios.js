@@ -146,6 +146,17 @@ breedSelect.addEventListener("change", async (event) => {
 
     Carousel.start();
 
+/* Part 2 - Item 10 
+Test your site, thoroughly! What happens when you try to load the Malayan breed? Not every breed has the same data
+available, so your code should account for this.
+ */
+
+    if (data.length === 0) {
+      
+      return
+
+    };
+
 // Use the other data you have been given to create an informational section within the infoDump element.
 
     const breed = data[0].breeds[0];
